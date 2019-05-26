@@ -30,6 +30,30 @@ contract Ownable {
         require(msg.sender == owner, "Unautorized access!");
         _;
     }
+
+    /**
+    * @dev Transfers the current balance to the owner.
+    */
+    function withdrawAll() public onlyOwner {
+        owner.transfer(address(this).balance);
+    }
+
+    /**
+    * @dev Transfers some wei to the owner.
+    * @param _value The amount to be transfered.
+    */
+    function withdrawSome(uint256 _value) public onlyOwner {
+        owner.transfer(_value);
+    }
+
+    /**
+    * @dev Transfers the some wei to the _recipient address.
+    * @param _recipient The recipient's address.
+    * @param _value The amount to be transfered.
+    */
+    function withdrawToOtherAcc(address payable _recipient, uint256 _value) public onlyOwner {
+        _recipient.transfer(_value);
+    }
 }
 
 
