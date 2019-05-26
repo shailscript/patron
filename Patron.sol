@@ -92,7 +92,7 @@ contract Patron is Ownable, Donatable, Destructible{
     /**
     * @dev Allows the current owner to transfer control of the contract to a newOwner.
     */
-    function acceptedDonations() view public returns (uint256) {
+    function acceptedDonations() public view returns (uint256) {
         return address(this).balance;
     }
 }
