@@ -85,7 +85,7 @@ contract Patron is Ownable, Donatable, Destructible{
     /**
     * @dev Allows the current owner to transfer control of the contract to a newOwner.
     */
-    function donate() public payable {
+    function donate() public payable isDonationOpen{
         require(msg.value > 0 ether, "Insufficient transfer value.");
     }
 
