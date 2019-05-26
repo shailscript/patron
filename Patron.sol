@@ -14,7 +14,7 @@ pragma solidity ^0.5.0;
  */
 contract Ownable {
     address payable internal owner;
-    
+
     /**
     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
     * account.
@@ -22,7 +22,7 @@ contract Ownable {
     constructor() internal {
         owner = msg.sender;
     }
-    
+
     /**
     * @dev Throws if called by any account other than the owner.
     */
@@ -38,16 +38,16 @@ contract Ownable {
  * @dev Base contract that can be destroyed by owner. All funds in contract will be sent to the owner.
  */
 contract Destructible is Ownable {
- 
-  constructor() internal payable { } 
- 
+
+  constructor() internal payable { }
+
   /**
-   * @dev Transfers the current balance to the owner and terminates the contract. 
+   * @dev Transfers the current balance to the owner and terminates the contract.
    */
   function destroy() public onlyOwner {
     selfdestruct(owner);
   }
- 
+
   function destroyAndSend(address payable _recipient) public onlyOwner {
     selfdestruct(_recipient);
   }
@@ -73,7 +73,7 @@ contract Donatable{
  * modifier, this simplifies the implementation of "user permissions".
  */
 contract Patron is Ownable, Donatable, Destructible{
-    
+
     /**
     * @dev Allows the current owner to set donation status (Accepting/Not accepting).
     * @param _status The address to transfer ownership to.
@@ -81,14 +81,14 @@ contract Patron is Ownable, Donatable, Destructible{
     function setStatus(bool _status) public onlyOwner {
         status = _status;
     }
-    
+
     /**
     * @dev Allows the current owner to transfer control of the contract to a newOwner.
     */
     function donate() public payable {
-        require(msg.value > 0 ether);
+        require(msg.value > 0 ether, "Insufficient transfer value.");
     }
-    
+
     /**
     * @dev Allows the current owner to transfer control of the contract to a newOwner.
     */
