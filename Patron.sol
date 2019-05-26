@@ -95,6 +95,7 @@ contract Patron is Ownable, Donatable, Destructible{
     * @dev Allows the public domain to transfer funds to the contract.
     */
     function donate() public payable isDonationOpen{
+        require(msg.sender != owner, "You can't donate funds to yourself, dear.");
         require(msg.value > 0 ether, "Insufficient transfer value.");
         emit DonationSuccessful(msg.sender, msg.value);
     }
