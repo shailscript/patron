@@ -24,7 +24,7 @@ contract Ownable {
     }
 
     /**
-    * @dev Throws if called by any account other than the owner.
+    * @dev Throws revert if called by any account other than the owner.
     */
     modifier onlyOwner {
         require(msg.sender == owner, "Unautorized access!");
@@ -48,19 +48,27 @@ contract Destructible is Ownable {
     selfdestruct(owner);
   }
 
+  /**
+   * @dev Transfers the current balance to the _recipient address and terminates the contract.
+   * @param _recipient The address to transfer the current balance to.
+   */
   function destroyAndSend(address payable _recipient) public onlyOwner {
     selfdestruct(_recipient);
   }
 }
 
 /**
- * @title Destructible
- * @dev Base contract that can be destroyed by owner. All funds in contract will be sent to the owner.
+ * @title Donatable
+ * @dev Base abstract contract that will be used to implement donation characteristics.
  */
 contract Donatable{
     bool internal status;
     function setStatus(bool) public;
     function donate() public payable;
+
+    /**
+    * @dev Throws revert if status is false (not accepting).
+    */
     modifier isDonationOpen {
         require(status == false, "Sorry we aren't accepting donations right now. Thank You!");
         _;
@@ -69,28 +77,29 @@ contract Donatable{
 
 /**
  * @title Patron
- * @dev The Owner contract has an owner address, and provides basic authorization control
- * modifier, this simplifies the implementation of "user permissions".
+ * @dev The Patron contract implements the feature of accepting transactions
+ * on behalf of the owner for this contract.
  */
 contract Patron is Ownable, Donatable, Destructible{
 
     /**
     * @dev Allows the current owner to set donation status (Accepting/Not accepting).
-    * @param _status The address to transfer ownership to.
+    * @param _status Boolean value true or false for Accepting and Not-Accepting respectively.
     */
     function setStatus(bool _status) public onlyOwner {
         status = _status;
     }
 
     /**
-    * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    * @dev Allows the public domain to transfer funds to the contract.
     */
     function donate() public payable isDonationOpen{
         require(msg.value > 0 ether, "Insufficient transfer value.");
     }
 
     /**
-    * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    * @dev Allows the public domain to view total balance in the contract.
+    * Likely to be used by the acceptors for setting a target public can verify.
     */
     function acceptedDonations() public view returns (uint256) {
         return address(this).balance;
