@@ -52,3 +52,17 @@ contract Destructible is Ownable {
     selfdestruct(_recipient);
   }
 }
+
+/**
+ * @title Destructible
+ * @dev Base contract that can be destroyed by owner. All funds in contract will be sent to the owner.
+ */
+contract Donatable{
+    bool internal status;
+    function setStatus(bool) public;
+    function donate() public payable;
+    modifier isDonationOpen {
+        require(status == false, "Sorry we aren't accepting donations right now. Thank You!");
+        _;
+    }
+}
