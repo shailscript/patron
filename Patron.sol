@@ -62,6 +62,7 @@ contract Destructible is Ownable {
  * @dev Base abstract contract that will be used to implement donation characteristics.
  */
 contract Donatable{
+    event DonationSuccessful(address from, uint value);
     bool internal status;
     function setStatus(bool) public;
     function donate() public payable;
@@ -70,7 +71,7 @@ contract Donatable{
     * @dev Throws revert if status is false (not accepting).
     */
     modifier isDonationOpen {
-        require(status == false, "Sorry we aren't accepting donations right now. Thank You!");
+        require(status == true, "Sorry we aren't accepting donations right now. Thank You!");
         _;
     }
 }
@@ -95,6 +96,7 @@ contract Patron is Ownable, Donatable, Destructible{
     */
     function donate() public payable isDonationOpen{
         require(msg.value > 0 ether, "Insufficient transfer value.");
+        emit DonationSuccessful(msg.sender, msg.value);
     }
 
     /**
