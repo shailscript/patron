@@ -66,3 +66,33 @@ contract Donatable{
         _;
     }
 }
+
+/**
+ * @title Patron
+ * @dev The Owner contract has an owner address, and provides basic authorization control
+ * modifier, this simplifies the implementation of "user permissions".
+ */
+contract Patron is Ownable, Donatable, Destructible{
+    
+    /**
+    * @dev Allows the current owner to set donation status (Accepting/Not accepting).
+    * @param _status The address to transfer ownership to.
+    */
+    function setStatus(bool _status) public onlyOwner {
+        status = _status;
+    }
+    
+    /**
+    * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    */
+    function donate() public payable {
+        require(msg.value > 0 ether);
+    }
+    
+    /**
+    * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    */
+    function acceptedDonations() view public returns (uint256) {
+        return address(this).balance;
+    }
+}
