@@ -29,20 +29,19 @@ To interact with the PatronDashboard you can follow the steps below:
 1. Call `newPatronDeployment()` to deploy make your patron account to accept donations
 2. Call `donateToArtist(uint _id)` with an arbitrary account and send some ETH along with the artist ID (use 0 to test) as parameters, and you should see an output like this. (sent 3ETH)
 ```JSON 
-[
-	{
-		"from": "0x9e43...57df879031",
-		"topic": "0xd77...465374401d38ae5...15ff9df3158f9b72a7",
-		"event": "DonationSuccessful",
-		"args": {
-			"0": "0x76A846CD2a...a468423D",
-			"1": "3000000000000000000",
-			"from": "0x76A846CD2a...a468423D",
-			"value": "3000000000000000000",
-			"length": 2
-		}
+
+{
+	"from": "0x9e43...57df879031",
+	"topic": "0xd77...465374401d38ae5...15ff9df3158f9b72a7",
+	"event": "DonationSuccessful",
+	"args": {
+		"0": "0x76A846CD2a...a468423D",
+		"1": "3000000000000000000",
+		"from": "0x76A846CD2a...a468423D",
+		"value": "3000000000000000000",
+		"length": 2
 	}
-]
+}
 ```
 > **NOTE** : *An event has been fired named `DonationSuccessful` which shows the method has been executed successfully.*
 
