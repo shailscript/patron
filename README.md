@@ -31,16 +31,16 @@ To interact with the PatronDashboard you can follow the steps below:
 ```JSON 
 
 {
-	"from": "0x9e43...57df879031",
-	"topic": "0xd77...465374401d38ae5...15ff9df3158f9b72a7",
-	"event": "DonationSuccessful",
-	"args": {
-		"0": "0x76A846CD2a...a468423D",
-		"1": "3000000000000000000",
-		"from": "0x76A846CD2a...a468423D",
-		"value": "3000000000000000000",
-		"length": 2
-	}
+  "from": "0x9e43...57df879031",
+  "topic": "0xd77...465374401d38ae5...15ff9df3158f9b72a7",
+  "event": "DonationSuccessful",
+  "args": {
+    "0": "0x76A846CD2a...a468423D",
+    "1": "3000000000000000000",
+    "from": "0x76A846CD2a...a468423D",
+    "value": "3000000000000000000",
+    "length": 2
+  }
 }
 ```
 > **NOTE** : *An event has been fired named `DonationSuccessful` which shows the method has been executed successfully.*
@@ -53,15 +53,15 @@ Some higher level concepts of Solidity programming has been used in the contract
 - **Multiple contract interactions** There are six contracts in total and all of these are woven together to make this application a fully functional project. In order to do that successfully contracts *inherit* from other contracts. You can spot the use of *abstract contracts* which are implemented using *is* keyword in Solidity. Example code snippet is below for reference:
 ```JS
 constructor(address _database) public {
-	database = PatronFactory(_database);
+  database = PatronFactory(_database);
 }
 ```
 - **Factory and Dashboard** implementation can be seen which makes the code quite functional in nature and gives the whole application a single entry point, avoiding hassle and making a single control point as the *Dashboard*. *Factory* here is used to enable deployment of multiple contract instances.
 - **Passing values to parent functions** Life isn't that easy when you're writing some Solidity code so passing value from one method to other is a crucial concept. The method below is payable but it is a proxy method so it has to send all ETH it has recieved to the real implementation of the donate method. Look how it is implemented:
 ```JS
 function donateToArtist(uint _id) public payable {
-	Patron thisPatronInstance = database.getPatronDeploymentById(_id);
-	thisPatronInstance.donate.value(msg.value)();
+  Patron thisPatronInstance = database.getPatronDeploymentById(_id);
+  thisPatronInstance.donate.value(msg.value)();
 }
 ```
 - **Clean dev documentation** - This may sound unimportant but as a developer I find it really crucial to document your code especially when it is for others to see or understand. Ideally, it should be slef explanatory but `@...` annotation and such documentation helps generate API docs encouraging clean code practices. 
